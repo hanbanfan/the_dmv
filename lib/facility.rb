@@ -18,25 +18,15 @@ class Facility
     @services << service
   end
 
-  # Registers a vehicle and calculates fees
-  def register_vehicle(vehicle)
-    return nil unless @services.include?('Vehicle Registration')
-
-    vehicle.register
-    @registered_vehicles << vehicle
-    @collected_fees += calculate_fee(vehicle)
-  end
-
-  # Calculates registration fees based on plate type
-  def calculate_fee(vehicle)
-    case vehicle.plate_type
-    when :antique
-      25
-    when :ev
-      200
-    else
-      100
+  class Facility
+    attr_reader :name, :services
+  
+    def initialize(name)
+      @name = name
+      @services = []
+    end
+  
+    def add_service(service)
+      @services << service
     end
   end
-end
-
