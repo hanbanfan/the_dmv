@@ -1,24 +1,42 @@
-# The Facility class represents a DMV facility.
-# It holds information about the facility such as name, address, phone number,
-# and manages a list of services the facility offers.
-class Facility
-  # Read-only access to attributes: name, address, phone, services
-  attr_reader :name, :address, :phone, :services
+require_relative 'vehicle'
 
-  # Initializes a Facility object with details such as name, address, and phone.
-  # @param details [Hash] A hash containing the name, address, and phone details.
-  # Example: { name: 'DMV Branch', address: '123 Main St', phone: '555-1234' }
+class Facility
+  attr_reader :name, :address, :phone, :services, :registered_vehicles, :collected_fees
+
+  # Initializes a Facility with details and an empty services list
   def initialize(details)
-    @name = details[:name]       # Name of the facility
-    @address = details[:address] # Address of the facility
-    @phone = details[:phone]     # Phone number of the facility
-    @services = []               # Array to hold the list of services offered
+    @name = details[:name]
+    @address = details[:address]
+    @phone = details[:phone]
+    @services = []
+    @registered_vehicles = []
+    @collected_fees = 0
   end
 
-  # Adds a service to the facility's list of services.
-  # @param service [String] The name of the service to add.
-  # Example: 'Vehicle Registration', 'Renew License'
+  # Adds a service to the facility
   def add_service(service)
     @services << service
   end
+
+  # Registers a vehicle and calculates fees
+  def register_vehicle(vehicle)
+    return nil unless @services.include?('Vehicle Registration')
+
+    vehicle.register
+    @registered_vehicles << vehicle
+    @collected_fees += calculate_fee(vehicle)
+  end
+
+  # Calculates registration fees based on plate type
+  def calculate_fee(vehicle)
+    case vehicle.plate_type
+    when :antique
+      25
+    when :ev
+      200
+    else
+      100
+    end
+  end
 end
+
