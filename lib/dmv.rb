@@ -1,19 +1,24 @@
+# The Dmv class represents the core DMV system that manages facilities.
 class Dmv
-  attr_reader :facilities # Add this line to create a reader for the facilities attribute
+  # Provides read access to the list of facilities.
+  attr_reader :facilities
 
+  # Initializes the Dmv object with an empty array of facilities.
   def initialize
-    @facilities = [] # Initializes an empty array of facilities
+    @facilities = [] # Array to store Facility objects
   end
 
-  # Adds a facility to the DMV
+  # Adds a facility to the DMV.
+  # @param facility [Facility] The facility object to be added.
   def add_facility(facility)
     @facilities << facility
   end
 
-  # Finds facilities offering a specific service
+  # Returns facilities that offer a specific service.
+  # @param service [String] The service to search for.
+  # @return [Array<Facility>] List of facilities providing the service.
   def facilities_offering_service(service)
-    @facilities.select do |facility|
-      facility.services.include?(service)
-    end
+    @facilities.select { |facility| facility.services.include?(service) }
   end
 end
+
