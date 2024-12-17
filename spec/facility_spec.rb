@@ -1,36 +1,45 @@
-require 'rspec'            # Require RSpec for testing
-require './lib/facility'   # Require the Facility class file to test
+require 'rspec'
+require './lib/facility'
+require './lib/vehicle'
 
-# RSpec test suite for the Facility class
 RSpec.describe Facility do
-  # Runs before each test block to create a fresh Facility object
   before(:each) do
-    # Initialize a facility with a hash of details
-    @facility = Facility.new({ 
-      name: 'DMV Main Branch', 
-      address: '123 Main St', 
-      phone: '555-1234' 
+    @facility = Facility.new({
+      name: 'DMV Main Branch',
+      address: '123 Main St',
+      phone: '555-1234'
+    })
+
+    @vehicle = Vehicle.new({
+      vin: '123456789ABCDEFG',
+      year: 2000,
+      make: 'Toyota',
+      model: 'Camry',
+      engine: :ice
     })
   end
 
-  # Test to check if a Facility object initializes correctly
-  it 'initializes with details' do
-    # Check the attributes of the Facility instance
+  it 'initializes with details and no services' do
     expect(@facility.name).to eq('DMV Main Branch')
     expect(@facility.address).to eq('123 Main St')
     expect(@facility.phone).to eq('555-1234')
-    expect(@facility.services).to eq([]) # Services should start as an empty array
+    expect(@facility.services).to eq([])
+    expect(@facility.registered_vehicles).to eq([])
+    expect(@facility.collected_fees).to eq(0)
   end
 
-  # Test to verify that services can be added to a facility
   it 'can add services' do
-    # Add a service to the facility
     @facility.add_service('Vehicle Registration')
-    @facility.add_service('Renew License')
-
-    # Check if the services list contains the added services
     expect(@facility.services).to include('Vehicle Registration')
-    expect(@facility.services).to include('Renew License')
-    expect(@facility.services.length).to eq(2) # Check the count of services
+  end
+
+  it 'can register a vehicle and collect fees' do
+    @facility.add_service('Vehicle Registration')
+    @facility.register_vehicle(@vehicle)
+
+    expect(@facility.registered_vehicles).to include(@vehicle)
+    expect(@vehicle.registration_date).to be_a(Date)
+    expect(@vehicle.plate_type).to eq(:regular)
+    expect(@facility.collected_fees).to eq(100)
   end
 end
