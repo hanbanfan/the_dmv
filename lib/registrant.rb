@@ -1,12 +1,10 @@
-# The Registrant class represents a person using DMV services.
+# The Registrant class represents a person who interacts with DMV services.
+# A registrant can have a permit and progress to earning a license.
 class Registrant
-  # Readable attributes for registrant details and license data
-  attr_reader :name, :age, :license_data, :permit
+  attr_reader :name, :age, :license_data
 
-  # Initializes a Registrant object
-  # @param name: String, name of the registrant
-  # @param age: Integer, age of the registrant
-  # @param permit: Boolean, whether the registrant has a permit (default: false)
+  # Initializes the registrant with a name, age, and optional permit status.
+  # license_data is initialized to track written, road, and renewed license status.
   def initialize(name, age, permit = false)
     @name = name
     @age = age
@@ -14,14 +12,14 @@ class Registrant
     @license_data = { written: false, license: false, renewed: false }
   end
 
-  # Checks if the registrant has a permit
-  # @return: Boolean value for permit status
+  # Checks if the registrant has a permit.
   def permit?
     @permit
   end
 
-  # Updates the registrant to indicate they have earned a permit
+  # Allows a registrant to earn a permit.
   def earn_permit
     @permit = true
   end
 end
+
