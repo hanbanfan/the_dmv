@@ -1,14 +1,24 @@
+require 'rspec'
 require './lib/vehicle_factory'
-require './lib/dmv_data_service'
+require './lib/vehicle'
 
 RSpec.describe VehicleFactory do
-  it 'creates vehicles from external data' do
-    factory = VehicleFactory.new
-    data = DmvDataService.new.wa_ev_registrations
-    vehicles = factory.create_vehicles(data)
+  before(:each) do
+    @factory = VehicleFactory.new
+    @data = [
+      { vin_1_10: '123ABC4567', model_year: '2012', make: 'Toyota', model: 'Prius' },
+      { vin_1_10: '456DEF7890', model_year: '2019', make: 'Tesla', model: 'Model S' }
+    ]
+  end
 
-    expect(vehicles).to all(be_a(Vehicle))
-    expect(vehicles.first.vin).to eq(data.first[:vin_1_10])
+  it 'can create vehicles from external data' do
+    vehicles = @factory.create_vehicles(@data)
+
+    expect(vehicles.length).to eq(2)
+    expect(vehicles.first).to be_a(Vehicle)
+    expect(vehicles.first.vin).to eq('123ABC4567')
+    expect(vehicles.first.make).to eq('Toyota')
+    expect(vehicles.first.model).to eq('Prius')
     expect(vehicles.first.engine).to eq(:ev)
   end
 end
