@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> feature/facility-class
 require_relative 'facility'
 
 # The FacilityFactory class is responsible for creating Facility objects from external data.
@@ -14,4 +18,8 @@ class FacilityFactory
       })
     end
   end
+<<<<<<< HEAD
 end
+=======
+end
+>>>>>>> feature/facility-class
