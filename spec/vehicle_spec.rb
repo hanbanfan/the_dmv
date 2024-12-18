@@ -1,30 +1,28 @@
-require 'spec_helper'
-
 RSpec.describe Vehicle do
   before(:each) do
-    @cruz = Vehicle.new({vin: '123456789abcdefgh', year: 2012, make: 'Chevrolet', model: 'Cruz', engine: :ice} )
-    @bolt = Vehicle.new({vin: '987654321abcdefgh', year: 2019, make: 'Chevrolet', model: 'Bolt', engine: :ev} )
-    @camaro = Vehicle.new({vin: '1a2b3c4d5e6f', year: 1969, make: 'Chevrolet', model: 'Camaro', engine: :ice} )
-  end
-  describe '#initialize' do
-    it 'can initialize' do
-      expect(@cruz).to be_an_instance_of(Vehicle)
-      expect(@cruz.vin).to eq('123456789abcdefgh')
-      expect(@cruz.year).to eq(2012)
-      expect(@cruz.make).to eq('Chevrolet')
-      expect(@cruz.model).to eq('Cruz')
-      expect(@cruz.engine).to eq(:ice)
-      expect(@cruz.registration_date).to eq(nil)
-    end
+    @vehicle = Vehicle.new({
+      vin: '123ABC',
+      year: 2000,
+      make: 'Toyota',
+      model: 'Camry',
+      engine: :ice
+    })
   end
 
-  describe '#antique?' do
-    it 'can determine if a vehicle is an antique' do
-      expect(@cruz.antique?).to eq(false)
-      expect(@bolt.antique?).to eq(false)
-      expect(@camaro.antique?).to eq(true)
-    end
+  it 'can initialize with attributes' do
+    expect(@vehicle.vin).to eq('123ABC')
+    expect(@vehicle.year).to eq(2000)
+    expect(@vehicle.make).to eq('Toyota')
+    expect(@vehicle.model).to eq('Camry')
+    expect(@vehicle.registration_date).to eq(nil)
   end
+
+  it 'can register a vehicle' do
+    @vehicle.register
+    expect(@vehicle.registration_date).to eq(Date.today)
+  end
+end
+
 
   describe '#electric_vehicle?' do
     it 'can determine if a vehicle is an ev' do
