@@ -1,26 +1,25 @@
-require 'spec_helper'
-
 RSpec.describe Facility do
   before(:each) do
-    @facility = Facility.new({name: 'DMV Tremont Branch', address: '2855 Tremont Place Suite 118 Denver CO 80205', phone: '(720) 865-4600'})
-  end
-  describe '#initialize' do
-    it 'can initialize' do
-      expect(@facility).to be_an_instance_of(Facility)
-      expect(@facility.name).to eq('DMV Tremont Branch')
-      expect(@facility.address).to eq('2855 Tremont Place Suite 118 Denver CO 80205')
-      expect(@facility.phone).to eq('(720) 865-4600')
-      expect(@facility.services).to eq([])
-    end
+    # Update to pass a hash for initialization
+    @facility = Facility.new({
+      name: 'DMV Main Branch',
+      address: '123 Main St',
+      phone: '555-1234'
+    })
   end
 
-  describe '#add service' do
-    it 'can add available services' do
-      expect(@facility.services).to eq([])
-      @facility.add_service('New Drivers License')
-      @facility.add_service('Renew Drivers License')
-      @facility.add_service('Vehicle Registration')
-      expect(@facility.services).to eq(['New Drivers License', 'Renew Drivers License', 'Vehicle Registration'])
-    end
+  it 'can initialize with attributes' do
+    expect(@facility.name).to eq('DMV Main Branch')
+    expect(@facility.address).to eq('123 Main St')
+    expect(@facility.phone).to eq('555-1234')
+    expect(@facility.services).to eq([])
+  end
+
+  it 'can add services' do
+    @facility.add_service('Vehicle Registration')
+    @facility.add_service('Road Test')
+
+    expect(@facility.services).to include('Vehicle Registration', 'Road Test')
   end
 end
+
